@@ -14,3 +14,7 @@ def play() -> int:
         if play_board[line][column] == "":
             empties.append(i+1)
     return random.choice(empties)
+
+
+def show_board():
+    pass

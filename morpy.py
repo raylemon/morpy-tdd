@@ -9,12 +9,17 @@ computer_is_playing = True  # l’ordinateur joue en premier
 def play() -> int:
     empties = []
     for i in range(9):
-        line = i//3
-        column =i%3
+        line = i // 3
+        column = i % 3
         if play_board[line][column] == "":
-            empties.append(i+1)
+            empties.append(i + 1)
     return random.choice(empties)
 
 
 def show_board():
-    pass
+    i = 1
+    for line in play_board:
+        for cell in line:
+            print(i, end=" ")
+            i += 1
+        print()

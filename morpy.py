@@ -6,14 +6,22 @@ SYMBOLS = ("X", "O")  # les symboles joués
 computer_is_playing = True  # l’ordinateur joue en premier
 
 
-def play(is_human: bool) -> int:
+def play(is_human: bool = False) -> int:
     empties = []
     for i in range(9):
         line = i // 3
         column = i % 3
         if play_board[line][column] == "":
             empties.append(i + 1)
-    return random.choice(empties)
+
+    if is_human:
+        rep = input(f"Sélectionnez une case vide ({empties}): ")
+        if not rep.isdigit() or int(rep) not in empties:
+            return -1
+        else:
+            return int(rep)
+    else:
+        return random.choice(empties)
 
 
 def show_board():

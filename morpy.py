@@ -6,7 +6,7 @@ SYMBOLS = ("X", "O")  # les symboles joués
 computer_is_playing = True  # l’ordinateur joue en premier
 
 
-def play() -> int:
+def play(is_human: bool) -> int:
     empties = []
     for i in range(9):
         line = i // 3
@@ -23,6 +23,6 @@ def show_board():
             if cell == "":
                 print(i, end=" ")
             else:
-                print(cell,end=" ")
+                print(cell, end=" ")
             i += 1
         print()

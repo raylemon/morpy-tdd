@@ -1,3 +1,5 @@
+from io import StringIO
+
 import morpy
 import pytest
 
@@ -20,17 +22,32 @@ def setup_other_board():
 
 def test_computer_plays():
     """ Doit retourner un chiffre entre 1 et 9"""
-    assert 1 <= morpy.play() <= 9
+    assert 1 <= morpy.play(is_human=False) <= 9
 
 
 def test_computer_plays_any_board(setup_any_board):
     """Doit retourner un chiffre représentant une case vide"""
-    assert morpy.play() in [3, 6, 9]
+    assert morpy.play(is_human=False) in [3, 6, 9]
 
 
 def test_computer_plays_other_board(setup_other_board):
     """Doit retourner un chiffre représentant une case vide"""
-    assert morpy.play() == 3
+    assert morpy.play(is_human=False) == 3
+
+
+def test_human_plays(monkeypatch):
+    """Imite le joueur humain choisissant la position 5"""
+    s_in = StringIO("5")
+    monkeypatch.setattr("sys.stdin",s_in)
+    assert morpy.play(is_human=True) == 5
+
+
+def test_human_plays_any_board(setup_any_board,monkeypatch):
+    """Imite le joueur humain choisissant la position 5, sauf qu’il ne peut PAS la jouer"""
+    s_in = StringIO("5")
+    monkeypatch.setattr("sys.stdin",s_in)
+    assert morpy.play(is_human=True) == -1
+
 
 
 def test_show_board(capsys):

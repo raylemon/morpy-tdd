@@ -7,4 +7,10 @@ computer_is_playing = True  # l’ordinateur joue en premier
 
 
 def play() -> int:
-    return random.randint(1, 9)
+    empties = []
+    for i in range(9):
+        line = i//3
+        column =i%3
+        if play_board[line][column] == "":
+            empties.append(i+1)
+    return random.choice(empties)

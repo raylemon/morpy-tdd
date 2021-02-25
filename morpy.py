@@ -20,6 +20,9 @@ def show_board():
     i = 1
     for line in play_board:
         for cell in line:
-            print(i, end=" ")
+            if cell == "":
+                print(i, end=" ")
+            else:
+                print(cell,end=" ")
             i += 1
         print()

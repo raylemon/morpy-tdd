@@ -51,8 +51,14 @@ def is_won_hor(symbol: str, line: int) -> bool:
 
 
 def is_won_slash(symbol: str) -> bool:
-    pass
+    for i in range(3):
+        if play_board[i][2-i] != symbol:
+            return False
+    return True
 
 
 def is_won_bslash(symbol: str) -> bool:
-    pass
+    for i in range(3):
+        if play_board[i][i] != symbol:
+            return False
+    return True

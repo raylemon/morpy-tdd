@@ -39,15 +39,19 @@ def show_board():
         print()
 
 
-def is_won_vert(symbol: str, column: int) -> bool:
-    col = []
-    for line in play_board:
-        col.append(line[column])
-    return col.count(symbol) == 3
+def is_won_vert(symbol: str) -> bool:
+    transpose = [list(i) for i in zip(*play_board)]
+    for line in range(3):
+        if transpose[line].count(symbol) == 3:
+            return True
+    return False
 
 
-def is_won_hor(symbol: str, line: int) -> bool:
-    return play_board[line].count(symbol) == 3
+def is_won_hor(symbol: str) -> bool:
+    for line in range(3):
+        if play_board[line].count(symbol) == 3:
+            return True
+    return False
 
 
 def is_won_slash(symbol: str) -> bool:

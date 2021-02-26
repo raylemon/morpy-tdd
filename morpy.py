@@ -39,8 +39,12 @@ def show_board():
         print()
 
 
-def is_won_vert(symbol, column):
+def is_won_vert(symbol:str, column:int) -> bool:
     col = []
     for line in play_board:
         col.append(line[column])
     return col.count(symbol) == 3
+
+
+def is_won_hor(symbol:str, line:int) -> bool:
+    pass

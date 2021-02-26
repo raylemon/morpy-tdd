@@ -105,5 +105,14 @@ def test_show_board(setup, result, capsys):
     (win_board_x_ver, "X"),
 ], indirect=["setup"])
 def test_for_win_vert(setup, symbol):
-    """Vérifie si on gagne en vertical (ou si on perd, selon le symbole joué"""
+    """Vérifie si on gagne en vertical, selon le symbole joué"""
     assert morpy.is_won_vert(symbol=symbol, column=0) is True
+
+
+@pytest.mark.parametrize("setup, symbol", [
+    (win_board_o_hor, "O"),
+    (win_board_x_hor, "X"),
+], indirect=["setup"])
+def test_for_win_hor(setup, symbol):
+    """Vérifie si on gagne en horizontal, selon le symbole joué"""
+    assert morpy.is_won_hor(symbol=symbol, line=0) is True

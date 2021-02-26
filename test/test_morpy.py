@@ -98,3 +98,12 @@ def test_show_board(setup, result, capsys):
     """"Affiche le tableau"""
     morpy.show_board()
     assert result == capsys.readouterr().out
+
+
+@pytest.mark.parametrize("setup, symbol", [
+    (win_board_o_ver, "O"),
+    (win_board_x_ver, "X"),
+], indirect=["setup"])
+def test_for_win_vert(setup, symbol):
+    """Vérifie si on gagne en vertical (ou si on perd, selon le symbole joué"""
+    assert morpy.is_won_vert(symbol=symbol, column=0) is True

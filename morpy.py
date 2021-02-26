@@ -37,3 +37,7 @@ def show_board():
                 print(cell, end=" ")
             i += 1
         print()
+
+
+def is_won_vert(symbol, column):
+    pass

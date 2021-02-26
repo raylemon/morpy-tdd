@@ -47,4 +47,4 @@ def is_won_vert(symbol:str, column:int) -> bool:
 
 
 def is_won_hor(symbol:str, line:int) -> bool:
-    pass
+    return play_board[line].count(symbol) == 3

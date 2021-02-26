@@ -21,7 +21,10 @@ def play(is_human: bool = False) -> int:
         else:
             return int(rep)
     else:
-        return random.choice(empties)
+        if len(empties) == 0:
+            return -1
+        else:
+            return random.choice(empties)
 
 
 def show_board():

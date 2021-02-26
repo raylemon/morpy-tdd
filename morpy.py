@@ -56,7 +56,7 @@ def is_won_hor(symbol: str) -> bool:
 
 def is_won_slash(symbol: str) -> bool:
     for i in range(3):
-        if play_board[i][2-i] != symbol:
+        if play_board[i][2 - i] != symbol:
             return False
     return True
 
@@ -66,3 +66,11 @@ def is_won_bslash(symbol: str) -> bool:
         if play_board[i][i] != symbol:
             return False
     return True
+
+
+def is_won(symbol: str) -> bool:
+    return is_won_vert(symbol) or is_won_hor(symbol) or is_won_bslash(symbol) or is_won_slash(symbol)
+
+
+def predic(symbol: str) -> int:
+    pass

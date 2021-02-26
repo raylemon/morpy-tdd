@@ -19,11 +19,12 @@ win_full_board_x = [["O", "O", "X"], ["O", "X", "O"], ["X", "O", "O"]]
 draw_board = [["X", "O", "X"], ["X", "O", "O"], ["O", "X", "X"]]
 board_x_can_win_ver = [["X", "", ""], ["X", "", ""], ["", "", ""]]
 board_o_can_win_ver = [["O", "", ""], ["O", "", ""], ["", "", ""]]
-board_x_can_win_hor = [["X", "", ""], ["X", "", ""], ["", "", ""]]
+board_x_can_win_hor = [["X", "X", ""], ["", "", ""], ["", "", ""]]
+board_o_can_win_hor = [["O", "O", ""], ["", "", ""], ["", "", ""]]
 board_o_can_win_bslash = [["O", "", ""], ["", "O", ""], ["", "", ""]]
 board_x_can_win_bslash = [["X", "", ""], ["", "X", ""], ["", "", ""]]
 board_o_can_win_slash = [["", "", ""], ["", "O", ""], ["O", "", ""]]
-win_board_x_can_win_slash = [["", "", ""], ["", "X", ""], ["X", "", ""]]
+board_x_can_win_slash = [["", "", ""], ["", "X", ""], ["X", "", ""]]
 
 
 @pytest.fixture
@@ -139,17 +140,39 @@ def test_for_win_bslash(setup, symbol):
 
 
 @pytest.mark.parametrize("setup,symbol", [
-    (win_board_o_hor,"O"),
+    (win_board_o_hor, "O"),
     (win_board_x_hor, "X"),
-    (win_board_o_ver,"O"),
-    (win_board_x_ver,"X"),
-    (win_board_o_bslash,"O"),
-    (win_board_x_bslash,"X"),
-    (win_board_o_slash,"O"),
-    (win_board_x_slash,"X"),
-    (win_full_board_o,"O"),
-    (win_full_board_x,"X"),
+    (win_board_o_ver, "O"),
+    (win_board_x_ver, "X"),
+    (win_board_o_bslash, "O"),
+    (win_board_x_bslash, "X"),
+    (win_board_o_slash, "O"),
+    (win_board_x_slash, "X"),
+    (win_full_board_o, "O"),
+    (win_full_board_x, "X"),
 ], indirect=["setup"])
 def test_for_win(setup, symbol):
     """Vérifie si le symbole joué gagne la partie en ayant joué la 1è case"""
-    assert morpy.is_win(symbol=symbol) is True
+    assert morpy.is_won(symbol=symbol) is True
+
+
+@pytest.mark.parametrize("setup,symbol,result",[
+    (board_x_can_win_ver,"X",[7]),
+    (board_o_can_win_ver,"O",[7]),
+    (board_x_can_win_hor,"X",[3]),
+    (board_o_can_win_hor,"O",[3]),
+    (board_x_can_win_bslash,"X",[9]),
+    (board_o_can_win_bslash,"O",[9]),
+    (board_x_can_win_slash,"X",[1]),
+    (board_o_can_win_slash,"O",[1]),
+    (draw_board,"X",[-1]),
+    (other_board,"X",[2]),
+    (any_board,"X",[3,6,9])
+],indirect=["setup"])
+def test_prediction_window(setup, symbol,result):
+    """Vérifie que l’IA sorte un chiffre selon les règles suivantes:
+        - Si l’ordinateur peut gagner, alors il joue pour gagner;
+        - Si l’ordinateur peut perdre, alors il joue pour empêcher le joueur de gagner;
+        - Si personne ne peut gagner, alors il joue dans une case libre au hasard.
+    """
+    assert morpy.predic(symbol) in result

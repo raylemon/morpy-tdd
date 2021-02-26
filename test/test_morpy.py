@@ -116,3 +116,23 @@ def test_for_win_vert(setup, symbol):
 def test_for_win_hor(setup, symbol):
     """Vérifie si on gagne en horizontal, selon le symbole joué"""
     assert morpy.is_won_hor(symbol=symbol, line=0) is True
+
+
+@pytest.mark.parametrize("setup, symbol", [
+    (win_board_o_slash, "O"),
+    (win_board_x_slash, "X"),
+    (win_full_board_o, "O"),
+    (win_full_board_x, "X"),
+], indirect=["setup"])
+def test_for_win_slash(setup, symbol):
+    """Vérifie si on gagne en diagonale, selon le symbole joué"""
+    assert morpy.is_won_slash(symbol=symbol) is True
+
+
+@pytest.mark.parametrize("setup, symbol", [
+    (win_board_o_bslash, "O"),
+    (win_board_x_bslash, "X"),
+], indirect=["setup"])
+def test_for_win_bslash(setup, symbol):
+    """Vérifie si on gagne en diagonale, selon le symbole joué"""
+    assert morpy.is_won_bslash(symbol=symbol) is True

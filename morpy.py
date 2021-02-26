@@ -40,4 +40,7 @@ def show_board():
 
 
 def is_won_vert(symbol, column):
-    pass
+    col = []
+    for line in play_board:
+        col.append(line[column])
+    return col.count(symbol) == 3

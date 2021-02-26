@@ -138,4 +138,18 @@ def test_for_win_bslash(setup, symbol):
     assert morpy.is_won_bslash(symbol=symbol) is True
 
 
-
+@pytest.mark.parametrize("setup,symbol", [
+    (win_board_o_hor,"O"),
+    (win_board_x_hor, "X"),
+    (win_board_o_ver,"O"),
+    (win_board_x_ver,"X"),
+    (win_board_o_bslash,"O"),
+    (win_board_x_bslash,"X"),
+    (win_board_o_slash,"O"),
+    (win_board_x_slash,"X"),
+    (win_full_board_o,"O"),
+    (win_full_board_x,"X"),
+], indirect=["setup"])
+def test_for_win(setup, symbol):
+    """Vérifie si le symbole joué gagne la partie en ayant joué la 1è case"""
+    assert morpy.is_win(symbol=symbol) is True

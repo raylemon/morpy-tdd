@@ -14,6 +14,9 @@ def play(is_human: bool = False) -> int:
         if play_board[line][column] == "":
             empties.append(i + 1)
 
+    if len(empties) == 0:
+        return -1
+
     if is_human:
         rep = input(f"Sélectionnez une case vide ({empties}): ")
         if not rep.isdigit() or int(rep) not in empties:
@@ -21,10 +24,7 @@ def play(is_human: bool = False) -> int:
         else:
             return int(rep)
     else:
-        if len(empties) == 0:
-            return -1
-        else:
-            return random.choice(empties)
+        return random.choice(empties)
 
 
 def show_board():

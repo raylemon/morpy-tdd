@@ -5,7 +5,7 @@ play_board = [["" for _ in range(3)] for _ in range(3)]  # le tableau de jeu
 computer_is_playing = True  # l’ordinateur joue en premier
 
 
-def play(is_human: bool = False) -> int:
+def play(symbol, is_human: bool = False) -> int:
     empties = find_empties()
     if len(empties) == 0:
         return -1
@@ -17,7 +17,7 @@ def play(is_human: bool = False) -> int:
         else:
             return int(rep)
     else:
-        return random.choice(empties)
+        return random.choice(predict(symbol))
 
 
 def find_empties() -> list:

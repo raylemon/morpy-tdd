@@ -39,7 +39,7 @@ def setup(request):
 def test_computer_play_empty_board(rep):
     """ Doit retourner un chiffre entre 1 et 9"""
     print(f"tentative n°{rep}")  # inutile, mais pour le fun
-    assert 1 <= morpy.play() <= 9
+    assert 1 <= morpy.play("X") <= 9
 
 
 @pytest.mark.parametrize("rep", range(20))
@@ -55,14 +55,14 @@ def test_computer_play_empty_board(rep):
 ], indirect=["setup"])
 def test_computer_play(rep, setup, result):
     """Doit retourner un chiffre représentant une case vide"""
-    assert morpy.play() in result
+    assert morpy.play("X") in result
 
 
 def test_human_play_empty_board(monkeypatch):
     """Imite le joueur humain choisissant la position 5"""
     s_in = StringIO("5")
     monkeypatch.setattr("sys.stdin", s_in)
-    assert morpy.play(is_human=True) == 5
+    assert morpy.play("X", is_human=True) == 5
 
 
 @pytest.mark.parametrize("setup, result", [
@@ -79,7 +79,7 @@ def test_human_play(setup, result, monkeypatch):
     """Imite le joueur humain choisissant la position 5, avec indication s’il peut la jouer ou non"""
     s_in = StringIO("5")
     monkeypatch.setattr("sys.stdin", s_in)
-    assert morpy.play(is_human=True) == result
+    assert morpy.play("X", is_human=True) == result
 
 
 @pytest.mark.parametrize("setup,result", [

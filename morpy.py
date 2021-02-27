@@ -102,7 +102,11 @@ def predict(symbol: str) -> list:
 
 
 def update_board(symbol: str, cell: int):
-    cell-=1
+    cell -= 1
     line = cell // 3
     column = cell % 3
     play_board[line][column] = symbol
+
+
+def clear_board():
+    return None

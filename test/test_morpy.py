@@ -216,3 +216,18 @@ def test_update_empty_board():
 def test_update_board(setup, cell, result):
     morpy.update_board(symbol="X", cell=cell)
     assert morpy.play_board == result
+
+
+@pytest.mark.parametrize("setup", [
+    any_board,
+    other_board,
+    win_board_o_hor,
+    win_board_o_ver,
+    win_board_o_bslash,
+    win_board_o_slash,
+], indirect=["setup"])
+def test_clear_board(setup):
+    morpy.clear_board()
+    assert morpy.play_board == [["" for _ in range(3)] for _ in range(3)]
+
+

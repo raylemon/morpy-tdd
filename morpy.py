@@ -109,4 +109,5 @@ def update_board(symbol: str, cell: int):
 
 
 def clear_board():
-    return None
+    for i in range(9):
+        play_board[i // 3][i % 3] = ""

@@ -4,7 +4,7 @@ import pytest
 
 import morpy
 
-any_board = [["X", "O", ""], ["X", "O", ""], ["O", "X", ""]]
+any_board = [["X", "", ""], ["X", "", "O"], ["O", "X", ""]]
 other_board = [["X", "O", ""], ["X", "O", "O"], ["O", "X", "X"]]
 win_board_o_hor = [["O", "O", "O"], ["", "", ""], ["", "", ""]]
 win_board_x_hor = [["X", "X", "X"], ["", "", ""], ["", "", ""]]
@@ -44,7 +44,7 @@ def test_computer_play_empty_board(rep):
 
 @pytest.mark.parametrize("rep", range(20))
 @pytest.mark.parametrize("setup,result", [
-    (any_board, [3, 6, 9]),
+    (any_board, [2, 3, 5, 9]),
     (other_board, [3]),
     (win_board_o_hor, [4, 5, 6, 7, 8, 9]),
     (win_board_o_ver, [2, 3, 5, 6, 8, 9]),
@@ -66,7 +66,7 @@ def test_human_play_empty_board(monkeypatch):
 
 
 @pytest.mark.parametrize("setup, result", [
-    (any_board, -1),
+    (any_board, 5),
     (other_board, -1),
     (win_board_o_hor, 5),
     (win_board_o_ver, 5),
@@ -83,7 +83,7 @@ def test_human_play(setup, result, monkeypatch):
 
 
 @pytest.mark.parametrize("setup,result", [
-    (any_board, "X O 3 \nX O 6 \nO X 9 \n"),
+    (any_board, "X 2 3 \nX 5 O \nO X 9 \n"),
     (other_board, "X O 3 \nX O O \nO X X \n"),
     (win_board_o_hor, "O O O \n4 5 6 \n7 8 9 \n"),
     (win_board_x_hor, "X X X \n4 5 6 \n7 8 9 \n"),
@@ -156,23 +156,43 @@ def test_for_win(setup, symbol):
     assert morpy.is_won(symbol=symbol) is True
 
 
-@pytest.mark.parametrize("setup,symbol,result",[
-    (board_x_can_win_ver,"X",[7]),
-    (board_o_can_win_ver,"O",[7]),
-    (board_x_can_win_hor,"X",[3]),
-    (board_o_can_win_hor,"O",[3]),
-    (board_x_can_win_bslash,"X",[9]),
-    (board_o_can_win_bslash,"O",[9]),
-    (board_x_can_win_slash,"X",[1]),
-    (board_o_can_win_slash,"O",[1]),
-    (draw_board,"X",[-1]),
-    (other_board,"X",[2]),
-    (any_board,"X",[3,6,9])
-],indirect=["setup"])
-def test_prediction_window(setup, symbol,result):
+@pytest.mark.parametrize("setup,result", [
+    (board_x_can_win_ver, [7]),
+    (board_o_can_win_ver, [7]),
+    (board_x_can_win_hor, [3]),
+    (board_o_can_win_hor, [3]),
+    (board_x_can_win_bslash, [9]),
+    (board_o_can_win_bslash, [9]),
+    (board_x_can_win_slash, [3]),
+    (board_o_can_win_slash, [3]),
+    (draw_board, []),
+    (other_board, [3]),
+    (any_board, [2, 3, 5, 9])
+], indirect=["setup"])
+@pytest.mark.parametrize("symbol", ("O", "X"))
+def test_prediction_window(setup, symbol, result):
     """Vérifie que l’IA sorte un chiffre selon les règles suivantes:
         - Si l’ordinateur peut gagner, alors il joue pour gagner;
         - Si l’ordinateur peut perdre, alors il joue pour empêcher le joueur de gagner;
         - Si personne ne peut gagner, alors il joue dans une case libre au hasard.
     """
-    assert morpy.predic(symbol) in result
+    assert morpy.predict(symbol) == result
+
+@pytest.mark.parametrize("setup,result",[
+    (any_board,[2,3,5,9]),
+    (other_board, [3]),
+    (win_board_o_hor,[4,5,6,7,8,9]),
+    (win_board_o_ver,[2,3,5,6,8,9]),
+    (win_board_o_bslash,[2,3,4,6,7,8]),
+    (win_board_o_slash,[1,2,4,6,8,9]),
+    (board_o_can_win_ver,[2,3,5,6,7,8,9]),
+    (board_o_can_win_hor,[3,4,5,6,7,8,9]),
+    (board_o_can_win_slash,[1,2,3,4,6,8,9]),
+    (board_x_can_win_bslash,[2,3,4,6,7,8,9])
+],indirect=["setup"])
+def test_find_empties(setup,result):
+    """ Vérifie que le programme trouve les cases vides.
+        Ce test a été ajouté car j’ai refactoré le code en créant la fonction find_empties
+        Chaque fonction créée doit être testée.
+    """
+    assert morpy.find_empties() == result

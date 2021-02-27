@@ -201,18 +201,18 @@ def test_find_empties(setup, result):
 
 def test_update_empty_board():
     """Vérifie si le tableau est mis à jour"""
-    morpy.update_board(symbol="X",cell=5)
-    assert morpy.play_board == [["","",""],["","X",""],["","",""]]
+    morpy.update_board(symbol="X", cell=5)
+    assert morpy.play_board == [["", "", ""], ["", "X", ""], ["", "", ""]]
 
 
-@pytest.mark.parametrize("setup,cell,result",[
-    (any_board,5,[["X", "", ""], ["X", "X", "O"], ["O", "X", ""]]),
-    (other_board,3,[["X", "O", "X"], ["X", "O", "O"], ["O", "X", "X"]]),
-    (win_board_o_hor,5, [["O", "O", "O"], ["", "X", ""], ["", "", ""]]),
-    (win_board_o_ver,5, [["O", "", ""], ["O", "X", ""], ["O", "", ""]]),
-    (win_board_o_bslash,3, [["O", "", "X"], ["", "O", ""], ["", "", "O"]]),
-    (win_board_o_slash,2, [["", "X", "O"], ["", "O", ""], ["O", "", ""]]),
-],indirect=["setup"])
+@pytest.mark.parametrize("setup,cell,result", [
+    (any_board, 5, [["X", "", ""], ["X", "X", "O"], ["O", "X", ""]]),
+    (other_board, 3, [["X", "O", "X"], ["X", "O", "O"], ["O", "X", "X"]]),
+    (win_board_o_hor, 5, [["O", "O", "O"], ["", "X", ""], ["", "", ""]]),
+    (win_board_o_ver, 5, [["O", "", ""], ["O", "X", ""], ["O", "", ""]]),
+    (win_board_o_bslash, 3, [["O", "", "X"], ["", "O", ""], ["", "", "O"]]),
+    (win_board_o_slash, 2, [["", "X", "O"], ["", "O", ""], ["O", "", ""]]),
+], indirect=["setup"])
 def test_update_board(setup, cell, result):
     morpy.update_board(symbol="X", cell=cell)
     assert morpy.play_board == result

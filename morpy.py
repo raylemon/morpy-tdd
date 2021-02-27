@@ -99,3 +99,7 @@ def predict(symbol: str) -> list:
         return counter_wins
     else:
         return empties
+
+
+def update_board(symbol:str, cell:int):
+    return None

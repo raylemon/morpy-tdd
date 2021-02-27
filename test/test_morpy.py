@@ -178,21 +178,41 @@ def test_prediction_window(setup, symbol, result):
     """
     assert morpy.predict(symbol) == result
 
-@pytest.mark.parametrize("setup,result",[
-    (any_board,[2,3,5,9]),
+
+@pytest.mark.parametrize("setup,result", [
+    (any_board, [2, 3, 5, 9]),
     (other_board, [3]),
-    (win_board_o_hor,[4,5,6,7,8,9]),
-    (win_board_o_ver,[2,3,5,6,8,9]),
-    (win_board_o_bslash,[2,3,4,6,7,8]),
-    (win_board_o_slash,[1,2,4,6,8,9]),
-    (board_o_can_win_ver,[2,3,5,6,7,8,9]),
-    (board_o_can_win_hor,[3,4,5,6,7,8,9]),
-    (board_o_can_win_slash,[1,2,3,4,6,8,9]),
-    (board_x_can_win_bslash,[2,3,4,6,7,8,9])
-],indirect=["setup"])
-def test_find_empties(setup,result):
+    (win_board_o_hor, [4, 5, 6, 7, 8, 9]),
+    (win_board_o_ver, [2, 3, 5, 6, 8, 9]),
+    (win_board_o_bslash, [2, 3, 4, 6, 7, 8]),
+    (win_board_o_slash, [1, 2, 4, 6, 8, 9]),
+    (board_o_can_win_ver, [2, 3, 5, 6, 7, 8, 9]),
+    (board_o_can_win_hor, [3, 4, 5, 6, 7, 8, 9]),
+    (board_o_can_win_slash, [1, 2, 3, 4, 6, 8, 9]),
+    (board_x_can_win_bslash, [2, 3, 4, 6, 7, 8, 9])
+], indirect=["setup"])
+def test_find_empties(setup, result):
     """ Vérifie que le programme trouve les cases vides.
         Ce test a été ajouté car j’ai refactoré le code en créant la fonction find_empties
         Chaque fonction créée doit être testée.
     """
     assert morpy.find_empties() == result
+
+
+def test_update_empty_board():
+    """Vérifie si le tableau est mis à jour"""
+    morpy.update_board(symbol="X",cell=5)
+    assert morpy.play_board == [["","",""],["","X",""],["","",""]]
+
+
+@pytest.mark.parametrize("setup,cell,result",[
+    (any_board,5,[["X", "", ""], ["X", "X", "O"], ["O", "X", ""]]),
+    (other_board,3,[["X", "O", "X"], ["X", "O", "O"], ["O", "X", "X"]]),
+    (win_board_o_hor,5, [["O", "O", "O"], ["", "X", ""], ["", "", ""]]),
+    (win_board_o_ver,5, [["O", "", ""], ["O", "X", ""], ["O", "", ""]]),
+    (win_board_o_bslash,3, [["O", "", "X"], ["", "O", ""], ["", "", "O"]]),
+    (win_board_o_slash,2, [["", "X", "O"], ["", "O", ""], ["O", "", ""]]),
+],indirect=["setup"])
+def test_update_board(setup, cell, result):
+    morpy.update_board(symbol="X", cell=cell)
+    assert morpy.play_board == result

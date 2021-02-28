@@ -1,5 +1,6 @@
 # Définition des variables
 import random
+from colorama import init, Fore # pip install -U colorama
 
 play_board = [["" for _ in range(3)] for _ in range(3)]  # le tableau de jeu
 human_is_playing = False  # l’ordinateur joue en premier
@@ -33,11 +34,14 @@ def find_empties() -> list:
 def show_board():
     i = 1
     for line in play_board:
-        for cell in line:
-            if cell == "":
+        for column in line:
+            if column == "":
                 print(i, end=" ")
             else:
-                print(cell, end=" ")
+                if column == "O":
+                    print(Fore.GREEN + column, end=" ")
+                else:
+                    print(Fore.RED + column, end=" ")
             i += 1
         print()
 
@@ -114,6 +118,7 @@ def clear_board():
 
 
 if __name__ == '__main__':
+    init(autoreset=True)
     replay = True
     while replay:
         player_symbol = ""

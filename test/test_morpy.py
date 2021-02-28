@@ -83,22 +83,22 @@ def test_human_play(setup, result, monkeypatch):
 
 
 @pytest.mark.parametrize("setup,result", [
-    (any_board, "X 2 3 \nX 5 O \nO X 9 \n"),
-    (other_board, "X O 3 \nX O O \nO X X \n"),
-    (win_board_o_hor, "O O O \n4 5 6 \n7 8 9 \n"),
-    (win_board_x_hor, "X X X \n4 5 6 \n7 8 9 \n"),
-    (win_board_o_ver, "O 2 3 \nO 5 6 \nO 8 9 \n"),
-    (win_board_x_ver, "X 2 3 \nX 5 6 \nX 8 9 \n"),
-    (win_board_o_bslash, "O 2 3 \n4 O 6 \n7 8 O \n"),
-    (win_board_x_bslash, "X 2 3 \n4 X 6 \n7 8 X \n"),
-    (win_full_board_o, "X X O \nX O X \nO X X \n"),
-    (win_full_board_x, "O O X \nO X O \nX O O \n"),
-    (draw_board, "X O X \nX O O \nO X X \n"),
+    (any_board, "\x1b[31mX 2 3 \n\x1b[31mX 5 \x1b[32mO \n\x1b[32mO \x1b[31mX 9 \n"),
+    (other_board, "\x1b[31mX \x1b[32mO 3 \n\x1b[31mX \x1b[32mO \x1b[32mO \n\x1b[32mO \x1b[31mX \x1b[31mX \n"),
+    (win_board_o_hor, "\x1b[32mO \x1b[32mO \x1b[32mO \n4 5 6 \n7 8 9 \n"),
+    (win_board_x_hor, "\x1b[31mX \x1b[31mX \x1b[31mX \n4 5 6 \n7 8 9 \n"),
+    (win_board_o_ver, "\x1b[32mO 2 3 \n\x1b[32mO 5 6 \n\x1b[32mO 8 9 \n"),
+    (win_board_x_ver, "\x1b[31mX 2 3 \n\x1b[31mX 5 6 \n\x1b[31mX 8 9 \n"),
+    (win_board_o_bslash, "\x1b[32mO 2 3 \n4 \x1b[32mO 6 \n7 8 \x1b[32mO \n"),
+    (win_board_x_bslash, "\x1b[31mX 2 3 \n4 \x1b[31mX 6 \n7 8 \x1b[31mX \n"),
+    (win_full_board_o, "\x1b[31mX \x1b[31mX \x1b[32mO \n\x1b[31mX \x1b[32mO \x1b[31mX \n\x1b[32mO \x1b[31mX \x1b[31mX \n"),
+    (win_full_board_x, "\x1b[32mO \x1b[32mO \x1b[31mX \n\x1b[32mO \x1b[31mX \x1b[32mO \n\x1b[31mX \x1b[32mO \x1b[32mO \n"),
+    (draw_board, "\x1b[31mX \x1b[32mO \x1b[31mX \n\x1b[31mX \x1b[32mO \x1b[32mO \n\x1b[32mO \x1b[31mX \x1b[31mX \n"),
 ], indirect=["setup"])
 def test_show_board(setup, result, capsys):
     """"Affiche le tableau"""
     morpy.show_board()
-    assert result == capsys.readouterr().out
+    assert capsys.readouterr().out == result
 
 
 @pytest.mark.parametrize("setup, symbol", [
